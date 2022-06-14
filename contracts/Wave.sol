@@ -5,19 +5,22 @@ pragma solidity ^0.8.4;
 import "hardhat/console.sol";
 
 contract Wave {
-    uint256 totalWaves;
+    uint256 total;
+    mapping (address => uint) balance;
 
     constructor() {
-        console.log("pew pew");
+        console.log("PEW PEW \n");
     }
 
-    function wave() public {
+    function wave() public{
         total += 1;
         console.log("%s has waved", msg.sender);
+        balance[msg.sender]++;
+        console.log("Number of waves %d \n",balance[msg.sender]);
     }
 
-    function getTotalWaves() public {
-        console.log("%d people waved", total);
+    function getTotalWaves() public view returns (uint256) {
+        console.log("%d people waved \n", total);
         return total;
     }
 }
