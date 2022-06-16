@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { ethers } from "ethers";
 import "./App.css";
 
 const App = () => {
@@ -6,7 +7,8 @@ const App = () => {
   * Just a state variable we use to store our user's public wallet.
   */
   const [currentAccount, setCurrentAccount] = useState("");
-
+  const contractAddress = "0xA1bFE1C9aa10C299c2b039206991452affbc533E";
+  
   const checkIfWalletIsConnected = async () => {
     try {
       const { ethereum } = window;
@@ -53,8 +55,27 @@ const App = () => {
       setCurrentAccount(accounts[0]);
     } catch (error) {
       console.log(error)
-    }
+    } 
   }
+  const wave = async () => {
+    try {
+      const { ethereum } = window;
+
+      if (ethereum) {
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
+        const wavePortalContract = new ethers.Contract(contractAddress, contractABI, signer);
+
+        let count = await wavePortalContract.getTotalWaves();
+        console.log("Retrieved total wave count...", count.toNumber());
+      } else {
+        console.log("Ethereum object doesn't exist!");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+}
+
   
   /*
   * This runs our function when the page loads.
@@ -74,7 +95,7 @@ const App = () => {
           I am Rahul Khanna, a blockchain dev. Connect your wallet and wave at me!
         </div>
 
-        <button className="waveButton" onClick={null}>
+        <button className="waveButton" onClick={wave}>
           Wave at Me
         </button>
 
