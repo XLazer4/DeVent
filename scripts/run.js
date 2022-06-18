@@ -11,19 +11,15 @@ const main = async () => {
     console.log("Contract deployed by: %s \n", owner.address);
 
     // Manually calling functions
-    let wavecount;
-    wavecount = await waveContract.getTotalWaves();
-
     let wavetx;
-    wavetx = await waveContract.wave();
+    wavetx = await waveContract.connect(randomPerson).wave("wassup bych");
     await wavetx.wait(); // waiting for this function to be mined first then continuing
 
+    let wavecount;
     wavecount = await waveContract.getTotalWaves(); // no await wavecount.wait() here cuz its a view function and nothing is updated
 
-    wavetx = await waveContract.connect(randomPerson).wave();// calling function from a random wallet address
-    await wavetx.wait();
-
-    waveCount = await waveContract.getTotalWaves();
+    let allWaves = await waveContract.getallwaves();
+    console.log(allWaves);
   };
   
   const runMain = async () => {
