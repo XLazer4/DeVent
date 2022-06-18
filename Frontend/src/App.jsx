@@ -8,8 +8,48 @@ const App = () => {
   * Just a state variable we use to store our user's public wallet.
   */
   const [currentAccount, setCurrentAccount] = useState("");
-  const contractAddress = "0xA1bFE1C9aa10C299c2b039206991452affbc533E";
+  const [allWaves, setAllWaves] = useState([]);
+  const contractAddress = "0x1054e20c94C46afa400eeAc273eEb70aD7b9ba35";
   const contractABI = abi.abi;
+
+  const getAllWaves = async () => {
+    try {
+      const { ethereum } = window;
+      if (ethereum) {
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
+        const wavePortalContract = new ethers.Contract(contractAddress, contractABI, signer);
+
+        /*
+         * Call the getAllWaves method from your Smart Contract
+         */
+        const waves = await wavePortalContract.getAllWaves();
+
+
+        /*
+         * We only need address, timestamp, and message in our UI so let's
+         * pick those out
+         */
+        let wavesCleaned = [];
+        waves.forEach(wave => {
+          wavesCleaned.push({
+            address: wave.waver,
+            timestamp: new Date(wave.timestamp * 1000),
+            message: wave.message
+          });
+        });
+
+        /*
+         * Store our data in React State
+         */
+        setAllWaves(wavesCleaned);
+      } else {
+        console.log("Ethereum object doesn't exist!")
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
   
   const checkIfWalletIsConnected = async () => {
     try {
@@ -73,7 +113,7 @@ const App = () => {
         console.log("Retrieved total wave count...", count.toNumber());
 
         //Writing contract
-        const waveTxn = await wavePortalContract.wave();
+        const waveTxn = await wavePortalContract.wave("this is a message")
         console.log("Mining...", waveTxn.hash);
 
         await waveTxn.wait();
@@ -121,7 +161,18 @@ const App = () => {
             Connect Wallet
           </button>
         )}
+        {allWaves.map((Swave, index) => {
+          return (
+            <div key={index} style={{ backgroundColor: "OldLace", marginTop: "16px", padding: "8px" }}>
+              <div>Address: {Swave.address}</div>
+              <div>Time: {Swave.timestamp.toString()}</div>
+              <div>Message: {Swave.message}</div>
+            </div>)
+        })}
+                <div className="bio">
+        </div>
       </div>
+      
     </div>
   );
 }
