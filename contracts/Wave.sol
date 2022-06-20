@@ -7,8 +7,8 @@ import "hardhat/console.sol";
 contract Wave {
     uint256 total;
     mapping (address => uint) amount;
+     // to generate random number
     uint256 private seed;
-    // will be used to generate random number
 
     event NewWave(address indexed from, uint256 timestamp, string message);
 
@@ -23,8 +23,8 @@ contract Wave {
     constructor() payable {
         console.log("PEW PEW \n");
         //block.difficulty = how hard the block is to mine based on the trx on the block
-        seed = (block.timestamp + block.difficulty) %100;
         // setting initial seed 
+        seed = (block.timestamp + block.difficulty) %100;
     }
 
     function wave(string memory _message) public{
@@ -32,8 +32,8 @@ contract Wave {
         console.log("%s waved w/ message %s", msg.sender, _message);
         waves.push(SWave(msg.sender, _message, block.timestamp));
 
-        seed = (block.difficulty + block.timestamp + seed) %100;
         // Generating new seed for the next user
+        seed = (block.difficulty + block.timestamp + seed) %100;
         console.log("Random # generated: %d", seed);
 
         amount[msg.sender]++;
@@ -47,10 +47,11 @@ contract Wave {
             require(
                 prizeAmount <= address(this).balance
             );
-            (bool success, ) = (msg.sender).call{value: prizeAmount}(""); 
             // Sending Ether to the user
+            (bool success, ) = (msg.sender).call{value: prizeAmount}(""); 
+            // checking if the trx was successful or a failure
             require(success, "Failed to withdraw money");
-            // knowing if the trx was successful or a failure
+            
         }
 
     }
