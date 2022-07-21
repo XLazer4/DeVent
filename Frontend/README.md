@@ -1,13 +1,11 @@
-## Running React on Repl.it
+# buildspace Wave Portal 👋 
 
-[React](https://reactjs.org/) is a popular JavaScript library for building user interfaces.
+### **Welcome!**
+To get started with this course, clone this repo and follow these commands:
 
-[Vite](https://vitejs.dev/) is a blazing fast frontend build tool that includes features like Hot Module Reloading (HMR), optimized builds, and TypeScript support out of the box.
+1. Run `npm install` at the root of your directory
+2. Run `npm run start` to start the project
+3. Start coding!
 
-Using the two in conjunction is one of the fastest ways to build a web app.
-
-### Getting Started
-- Hit run
-- Edit [App.jsx](#src/App.jsx) and watch it live update!
-
-By default, Replit runs the `dev` script, but you can configure it by changing the `run` field in the `.replit` file.
+### **Questions?**
+Have some questions make sure you head over to your [buildspace Dashboard](https://app.buildspace.so/courses/CO02cf0f1c-f996-4f50-9669-cf945ca3fb0b) and link your Discord account so you can get access to helpful channels and your instructor!
